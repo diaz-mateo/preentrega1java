@@ -4,18 +4,23 @@ import jakarta.persistence.*;
 
 @Entity
 public class Direccion {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ciudad;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    // Getters y Setters
+    public Direccion() {}
+
+    public Direccion(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
     public Long getId() {
         return id;
     }

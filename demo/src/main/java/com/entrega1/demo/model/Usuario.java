@@ -1,11 +1,12 @@
 package com.entrega1.demo.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Usuario {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,9 +14,8 @@ public class Usuario {
     private String nombre;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Direccion> direcciones;
+    private List<Direccion> direcciones = new ArrayList<>();
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -38,5 +38,15 @@ public class Usuario {
 
     public void setDirecciones(List<Direccion> direcciones) {
         this.direcciones = direcciones;
+    }
+
+    public void addDireccion(Direccion d) {
+        direcciones.add(d);
+        d.setUsuario(this);
+    }
+
+    public void removeDireccion(Direccion d) {
+        direcciones.remove(d);
+        d.setUsuario(null);
     }
 }
